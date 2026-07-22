@@ -547,6 +547,7 @@ function initActiveSection(){
   const hash = location.hash.replace("#", "");
   const valid = ["overview","lens","brace","growth"];
   showSection(valid.includes(hash) ? hash : "overview", null, true);
+  window.scrollTo(0, 0);
 }
 document.addEventListener("DOMContentLoaded", initActiveSection);
 </script>
