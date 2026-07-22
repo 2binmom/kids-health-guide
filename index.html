@@ -533,18 +533,20 @@ function shareKakao(btn){
     });
   }
 }
-function showSection(id, evt){
+function showSection(id, evt, skipScroll){
   if (evt) evt.preventDefault();
   document.querySelectorAll(".book-section").forEach(s => s.classList.toggle("active", s.id === id));
   document.querySelectorAll("nav.toc a").forEach(a => a.classList.toggle("active", a.getAttribute("href") === "#" + id));
-  const el = document.getElementById(id);
-  if (el) el.scrollIntoView({behavior:"smooth", block:"start"});
+  if (!skipScroll){
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({behavior:"smooth", block:"start"});
+  }
   history.replaceState(null, "", "#" + id);
 }
 function initActiveSection(){
   const hash = location.hash.replace("#", "");
   const valid = ["overview","lens","brace","growth"];
-  showSection(valid.includes(hash) ? hash : "overview");
+  showSection(valid.includes(hash) ? hash : "overview", null, true);
 }
 document.addEventListener("DOMContentLoaded", initActiveSection);
 </script>
