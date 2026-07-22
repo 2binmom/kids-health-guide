@@ -521,6 +521,7 @@
   <div style="margin-top:10px;">© 2026 투빈맘 · <a href="https://www.instagram.com/2bin_mom/?hl=ko" target="_blank" rel="noopener">@2bin_mom</a></div>
 </footer>
 <script>
+if ("scrollRestoration" in history) history.scrollRestoration = "manual";
 function shareKakao(btn){
   const shareData = { title: document.title, url: location.href };
   if (navigator.share){
@@ -543,12 +544,20 @@ function showSection(id, evt, skipScroll){
   }
   history.replaceState(null, "", "#" + id);
 }
+function correctInitialScroll(){
+  window.scrollTo(0, 0);
+}
 function initActiveSection(){
   const hash = location.hash.replace("#", "");
   const valid = ["overview","lens","brace","growth"];
   showSection(valid.includes(hash) ? hash : "overview", null, true);
-  window.scrollTo(0, 0);
+  correctInitialScroll();
+  // 카카오톡 인앱 브라우저 등에서 이미지 로딩으로 레이아웃이 늦게 자리잡으며
+  // 브라우저가 URL 해시로 다시 스크롤을 밀어버리는 경우가 있어, 로드 완료 후에도 한 번 더 보정
+  window.addEventListener("load", () => setTimeout(correctInitialScroll, 50));
+  setTimeout(correctInitialScroll, 400);
+  setTimeout(correctInitialScroll, 1200);
 }
 document.addEventListener("DOMContentLoaded", initActiveSection);
-window.addEventListener("pageshow", function(){ window.scrollTo(0, 0); });
+window.addEventListener("pageshow", correctInitialScroll);
 </script>
